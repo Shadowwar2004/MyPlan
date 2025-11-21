@@ -1,0 +1,209 @@
+/* src/app/components/transaction-form/transaction-form.component.css */
+.form-container {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  padding: 35px;
+  width: 100%;
+  max-width: 480px;
+  margin: 20px auto;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.form-header h1 {
+  color: #2c3e50;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  color: #34495e;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e1e8ed;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background-color: #f8fafc;
+  color: #2c3e50;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #667eea;
+  background-color: white;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+}
+
+.form-control:disabled {
+  background-color: #f8f9fa;
+  color: #95a5a6;
+  cursor: not-allowed;
+  border-color: #ecf0f1;
+}
+
+.form-control.error {
+  border-color: #e74c3c;
+}
+
+.radio-group {
+  display: flex;
+  gap: 12px;
+}
+
+.radio-option {
+  flex: 1;
+  position: relative;
+}
+
+.radio-option input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  width: 0;
+  height: 0;
+}
+
+.radio-custom {
+  display: block;
+  padding: 14px 16px;
+  border: 2px solid #e1e8ed;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #f8fafc;
+  font-weight: 600;
+  color: #5a6c7d;
+}
+
+.radio-option input:checked + .radio-custom {
+  border-color: #667eea;
+  background-color: #667eea;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.radio-option input:checked + .radio-custom.expense {
+  border-color: #e74c3c;
+  background-color: #e74c3c;
+  box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+}
+
+.radio-option input:checked + .radio-custom.income {
+  border-color: #27ae60;
+  background-color: #27ae60;
+  box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+}
+
+.radio-custom:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  color: #7f8c8d;
+}
+
+.form-divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e1e8ed, transparent);
+  margin: 25px 0;
+}
+
+.help-text {
+  font-size: 13px;
+  color: #7f8c8d;
+  margin-top: 8px;
+  font-style: italic;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.help-text.active {
+  color: #e74c3c;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.success-message {
+  background: #d4edda;
+  color: #155724;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 15px;
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    padding: 25px 20px;
+    margin: 10px;
+  }
+
+  .radio-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
