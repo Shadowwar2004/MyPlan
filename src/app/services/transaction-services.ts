@@ -1,47 +1,26 @@
-import { Injectable } from '@angular/core';
-import { Transaction, Category } from '../models/transaction.model';
+import {inject, Injectable} from '@angular/core';
+import {Transaction, Category, CategoriesResponse} from '../models/transaction.model';
+import {HttpClient, HttpResponse} from '@angular/common/http';
+import {environment} from '../../environments/environment';
+import {map, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionService {
-  private categories: Category[] = [
-    {
-      name: 'Alimentation',
-      subcategories: ['Épicerie', 'Restaurant', 'Livraison', 'Café', 'Fast-food']
-    },
-    {
-      name: 'Transport',
-      subcategories: ['Essence', 'Transport en commun', 'Taxi/Uber', 'Entretien véhicule', 'Parking']
-    },
-    {
-      name: 'Logement',
-      subcategories: ['Loyer', 'Électricité', 'Eau', 'Internet', 'Charges', 'Assurance habitation']
-    },
-    {
-      name: 'Santé',
-      subcategories: ['Médecin', 'Médicaments', 'Dentiste', 'Optique', 'Hôpital']
-    },
-    {
-      name: 'Loisirs',
-      subcategories: ['Cinéma', 'Sport', 'Voyages', 'Shopping', 'Abonnements']
-    },
-    {
-      name: 'Salaire',
-      subcategories: ['Salaire principal', 'Bonus', 'Heures supplémentaires', 'Prime']
-    },
-    {
-      name: 'Investissement',
-      subcategories: ['Actions', 'Cryptomonnaie', 'Immobilier', 'Épargne', 'Placements']
-    }
-  ];
+  httpClient: HttpClient = inject(HttpClient);
+  static readonly ENDPOINT_NAME: string = "categories";
+  static readonly ENDPOINT_URL: string = environment.API_BASE_URL + "/" + TransactionService.ENDPOINT_NAME;
 
-  getCategories(): Category[] {
-    return this.categories;
+  getCategories(): Observable<Category[]> {
+    return this.httpClient.get<CategoriesResponse>(TransactionService.ENDPOINT_URL)
+      .pipe(
+        map((response: CategoriesResponse) => response.categories)
+      )
   }
 
-  getSubcategories(categoryName: string): string[] {
+  /*getSubcategories(categoryName: string): string[] {
     const category = this.categories.find(cat => cat.name === categoryName);
     return category ? category.subcategories : [];
-  }
+  }*/
 }

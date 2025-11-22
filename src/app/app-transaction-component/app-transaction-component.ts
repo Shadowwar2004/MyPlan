@@ -1,7 +1,6 @@
-
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import { Transaction, Category } from '../models/transaction.model';
+import {Transaction, Category} from '../models/transaction.model';
 import {TransactionService} from '../services/transaction-services';
 
 
@@ -28,8 +27,16 @@ export class AppTransactionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.categories = this.transactionService.getCategories();
-    this.updateCategoriesByType();
+    this.transactionService.getCategories().subscribe({
+      next: (categories) => {
+        console.log("Categories loaded: ",categories);
+        this.categories = categories;
+      },
+      error: (error) => {
+        console.error("Erreur lors du chargement des catégories: ", error);
+      }
+    });
+    //this.updateCategoriesByType();
   }
 
   createForm(): FormGroup {
@@ -43,36 +50,36 @@ export class AppTransactionComponent implements OnInit {
     });
   }
 
-  onTypeChange(): void {
-    this.selectedType = this.transactionForm.get('type')?.value;
-    this.updateCategoriesByType();
-    this.resetCategoryAndSubcategory();
-  }
+  /* onTypeChange(): void {
+     this.selectedType = this.transactionForm.get('type')?.value;
+     this.updateCategoriesByType();
+     this.resetCategoryAndSubcategory();
+   }/*
 
-  onCategoryChange(): void {
-    const selectedCategory = this.transactionForm.get('category')?.value;
-    if (selectedCategory) {
-      this.subcategories = this.transactionService.getSubcategories(selectedCategory);
-      this.transactionForm.get('subcategory')?.enable();
-    } else {
-      this.subcategories = [];
-      this.transactionForm.get('subcategory')?.disable();
-    }
-    this.transactionForm.patchValue({ subcategory: '' });
-  }
+   /*onCategoryChange(): void {
+     const selectedCategory = this.transactionForm.get('category')?.value;
+     if (selectedCategory) {
+       this.subcategories = this.transactionService.getSubcategories(selectedCategory);
+       this.transactionForm.get('subcategory')?.enable();
+     } else {
+       this.subcategories = [];
+       this.transactionForm.get('subcategory')?.disable();
+     }
+     this.transactionForm.patchValue({ subcategory: '' });
+   }
 
-  updateCategoriesByType(): void {
-    const allCategories = this.transactionService.getCategories();
-    if (this.selectedType === 'income') {
-      this.categories = allCategories.filter(cat =>
-        ['Salaire', 'Investissement'].includes(cat.name)
-      );
-    } else {
-      this.categories = allCategories.filter(cat =>
-        !['Salaire', 'Investissement'].includes(cat.name)
-      );
-    }
-  }
+   updateCategoriesByType(): void {
+     const allCategories = this.transactionService.getCategories();
+     if (this.selectedType === 'income') {
+       this.categories = allCategories.filter(cat =>
+         ['Salaire', 'Investissement'].includes(cat.name)
+       );
+     } else {
+       this.categories = allCategories.filter(cat =>
+         !['Salaire', 'Investissement'].includes(cat.name)
+       );
+     }
+   }*/
 
   resetCategoryAndSubcategory(): void {
     this.transactionForm.patchValue({
@@ -117,7 +124,7 @@ export class AppTransactionComponent implements OnInit {
       description: ''
     });
     this.selectedType = 'expense';
-    this.updateCategoriesByType();
+    //this.updateCategoriesByType();
     this.subcategories = [];
     this.transactionForm.get('subcategory')?.disable();
   }

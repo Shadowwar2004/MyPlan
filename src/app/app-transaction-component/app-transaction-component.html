@@ -44,16 +44,16 @@
           <input
             type="radio"
             formControlName="type"
-            value="expense"
-            (change)="onTypeChange()">
+            value="expense">
+            <!--(change)="onTypeChange()">-->
           <span class="radio-custom expense">Dépenses</span>
         </label>
         <label class="radio-option">
           <input
             type="radio"
             formControlName="type"
-            value="income"
-            (change)="onTypeChange()">
+            value="income">
+            <!--(change)="onTypeChange()">-->
           <span class="radio-custom income">Revenu</span>
         </label>
       </div>
@@ -67,11 +67,10 @@
       <select
         id="category"
         formControlName="category"
-        (change)="onCategoryChange()"
         class="form-control"
         [class.error]="transactionForm.get('category')?.invalid && transactionForm.get('category')?.touched">
         <option value="">Sélectionnez une catégorie</option>
-        @for (category of categories; track category.name) {
+        @for (category of categories; track category.id) {
           <option [value]="category.name">
             {{ category.name }}
           </option>

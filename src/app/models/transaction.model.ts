@@ -10,6 +10,11 @@ export interface Transaction {
 }
 
 export interface Category {
+  id: number;
   name: string;
-  subcategories: string[];
+  estimatedAmount: number;
+}
+
+export interface CategoriesResponse {
+  categories: Category[];
 }
