@@ -10,7 +10,7 @@ import {TransactionService} from '../services/transaction-services';
   imports: [
     ReactiveFormsModule
   ],
-  styleUrls: ['./app-transaction-component.css']
+  styleUrls: ['./app-transaction-component.css',]
 })
 export class AppTransactionComponent implements OnInit {
   transactionForm: FormGroup;

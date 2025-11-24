@@ -6,8 +6,8 @@ import {AppTransactionComponent} from './app-transaction-component/app-transacti
   selector: 'app-root',
   imports: [RouterOutlet, AppTransactionComponent],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: 'app.css'
 })
 export class App {
-  protected readonly title = signal('MyPlann');
+  protected readonly title = signal('MyPlan');
 }
