@@ -1,3 +1,22 @@
+<!-- src/app/app.component.html -->
 <div class="app-container">
-  <app-transaction-form></app-transaction-form>
+  <!-- Navbar avec liaison d'événements -->
+  <app-app-navbar (viewChange)="setActiveView($event)"></app-app-navbar>
+
+  <main class="main-content">
+    <!-- Page de récapitulatif -->
+    @if (activeView === 'summary') {
+      <app-app-summary (navigateToAdd)="setActiveView('add')"></app-app-summary>
+    }
+
+    <!-- Page d'ajout -->
+    @if (activeView === 'add') {
+      <div class="add-page-container">
+        <app-transaction-form
+          (saved)="onTransactionSaved()"
+          (cancelled)="setActiveView('summary')">
+        </app-transaction-form>
+      </div>
+    }
+  </main>
 </div>

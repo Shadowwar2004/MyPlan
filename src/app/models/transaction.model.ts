@@ -1,9 +1,9 @@
 // src/app/models/transaction.model.ts
 export interface Transaction {
-  id?: string;
-  date: Date;
+  id?: number;
+  date: string;
   amount: number;
-  type: 'income' | 'expense';
+  type: 'INCOME' | 'EXPENSE'; // Uniquement en majuscules pour correspondre au backend
   category: string;
   subcategory: string;
   description?: string;
@@ -12,9 +12,17 @@ export interface Transaction {
 export interface Category {
   id: number;
   name: string;
-  estimatedAmount: number;
+  subcategories: string[];
 }
 
 export interface CategoriesResponse {
   categories: Category[];
+}
+
+export interface TransactionsResponse {
+  transactions: Transaction[];
+}
+
+export interface BalanceResponse {
+  balance: number;
 }

@@ -1,20 +1,19 @@
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+/* src/app/app.component.css */
+.app-container {
   min-height: 100vh;
+  background: #f8fafc;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.app-container {
-  min-height: 100vh;
+.main-content {
+  min-height: calc(100vh - 80px); /* Hauteur totale moins la navbar */
+}
+
+.add-page-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 20px;
+  align-items: flex-start;
+  padding: 2rem;
+  min-height: calc(100vh - 80px);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Transaction, Category} from '../models/transaction.model';
 import {TransactionService} from '../services/transaction-services';
@@ -13,11 +13,17 @@ import {TransactionService} from '../services/transaction-services';
   styleUrls: ['./app-transaction-component.css',]
 })
 export class AppTransactionComponent implements OnInit {
+  @Input() transaction?: Transaction;
+  @Output() saved = new EventEmitter<void>();
+  @Output() cancelled = new EventEmitter<void>();
+
   transactionForm: FormGroup;
   categories: Category[] = [];
   subcategories: string[] = [];
-  selectedType: 'income' | 'expense' = 'expense';
-  showSuccessMessage = false;
+  selectedType: 'INCOME' | 'EXPENSE' = 'EXPENSE'; // Uniquement majuscules
+  isEditMode = false;
+  isLoading = false;
+  error: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -27,59 +33,93 @@ export class AppTransactionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadCategories();
+
+    if (this.transaction) {
+      this.isEditMode = true;
+      this.populateForm(this.transaction);
+    }
+  }
+
+  loadCategories(): void {
     this.transactionService.getCategories().subscribe({
       next: (categories) => {
-        console.log("Categories loaded: ",categories);
         this.categories = categories;
+        if (!this.isEditMode) {
+          this.updateCategoriesByType();
+        }
       },
       error: (error) => {
-        console.error("Erreur lors du chargement des catégories: ", error);
+        this.error = 'Erreur lors du chargement des catégories';
+        console.error('Error loading categories:', error);
       }
     });
-    //this.updateCategoriesByType();
   }
 
   createForm(): FormGroup {
     return this.fb.group({
       date: [new Date().toISOString().substring(0, 10), Validators.required],
       amount: ['', [Validators.required, Validators.min(0.01)]],
-      type: ['expense', Validators.required],
+      type: ['EXPENSE', Validators.required], // Uniquement majuscules
       category: ['', Validators.required],
       subcategory: ['', Validators.required],
       description: ['']
     });
   }
 
-  /* onTypeChange(): void {
-     this.selectedType = this.transactionForm.get('type')?.value;
-     this.updateCategoriesByType();
-     this.resetCategoryAndSubcategory();
-   }/*
+  populateForm(transaction: Transaction): void {
+    this.selectedType = transaction.type;
+    this.transactionForm.patchValue({
+      date: transaction.date.substring(0, 10),
+      amount: transaction.amount,
+      type: transaction.type,
+      category: transaction.category,
+      subcategory: transaction.subcategory,
+      description: transaction.description || ''
+    });
+    this.onCategoryChange();
+  }
 
-   /*onCategoryChange(): void {
-     const selectedCategory = this.transactionForm.get('category')?.value;
-     if (selectedCategory) {
-       this.subcategories = this.transactionService.getSubcategories(selectedCategory);
-       this.transactionForm.get('subcategory')?.enable();
-     } else {
-       this.subcategories = [];
-       this.transactionForm.get('subcategory')?.disable();
-     }
-     this.transactionForm.patchValue({ subcategory: '' });
-   }
+  onTypeChange(): void {
+    this.selectedType = this.transactionForm.get('type')?.value;
+    this.updateCategoriesByType();
+    this.resetCategoryAndSubcategory();
+  }
 
-   updateCategoriesByType(): void {
-     const allCategories = this.transactionService.getCategories();
-     if (this.selectedType === 'income') {
-       this.categories = allCategories.filter(cat =>
-         ['Salaire', 'Investissement'].includes(cat.name)
-       );
-     } else {
-       this.categories = allCategories.filter(cat =>
-         !['Salaire', 'Investissement'].includes(cat.name)
-       );
-     }
-   }*/
+  onCategoryChange(): void {
+    const selectedCategoryName = this.transactionForm.get('category')?.value;
+    if (selectedCategoryName) {
+      const category = this.categories.find(cat => cat.name === selectedCategoryName);
+      if (category) {
+        this.transactionService.getSubcategories(category.id).subscribe({
+          next: (subcategories) => {
+            this.subcategories = subcategories;
+            this.transactionForm.get('subcategory')?.enable();
+          },
+          error: (error) => {
+            this.error = 'Erreur lors du chargement des sous-catégories';
+            console.error('Error loading subcategories:', error);
+          }
+        });
+      }
+    } else {
+      this.subcategories = [];
+      this.transactionForm.get('subcategory')?.disable();
+    }
+    this.transactionForm.patchValue({ subcategory: '' });
+  }
+
+  updateCategoriesByType(): void {
+    if (this.selectedType === 'INCOME') {
+      this.categories = this.categories.filter(cat =>
+        ['Salaire', 'Investissement'].includes(cat.name)
+      );
+    } else {
+      this.categories = this.categories.filter(cat =>
+        !['Salaire', 'Investissement'].includes(cat.name)
+      );
+    }
+  }
 
   resetCategoryAndSubcategory(): void {
     this.transactionForm.patchValue({
@@ -92,40 +132,40 @@ export class AppTransactionComponent implements OnInit {
 
   onSubmit(): void {
     if (this.transactionForm.valid) {
+      this.isLoading = true;
+      this.error = null;
+
       const formValue = this.transactionForm.value;
-      const transaction: Transaction = {
-        date: new Date(formValue.date),
+      const transactionData: Transaction = {
+        date: formValue.date,
         amount: parseFloat(formValue.amount),
-        type: formValue.type,
+        type: formValue.type, // Déjà en majuscules
         category: formValue.category,
         subcategory: formValue.subcategory,
         description: formValue.description
       };
 
-      console.log('Transaction créée:', transaction);
+      const operation = this.isEditMode && this.transaction
+        ? this.transactionService.updateTransaction(this.transaction.id!, transactionData)
+        : this.transactionService.createTransaction(transactionData);
 
-      // Afficher le message de succès
-      this.showSuccessMessage = true;
-
-      // Réinitialiser le formulaire après 3 secondes
-      setTimeout(() => {
-        this.resetForm();
-        this.showSuccessMessage = false;
-      }, 3000);
+      operation.subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.saved.emit();
+        },
+        error: (error) => {
+          this.isLoading = false;
+          this.error = this.isEditMode
+            ? 'Erreur lors de la modification'
+            : 'Erreur lors de la création';
+          console.error('Error saving transaction:', error);
+        }
+      });
     }
   }
 
-  resetForm(): void {
-    this.transactionForm.reset({
-      date: new Date().toISOString().substring(0, 10),
-      type: 'expense',
-      category: '',
-      subcategory: '',
-      description: ''
-    });
-    this.selectedType = 'expense';
-    //this.updateCategoriesByType();
-    this.subcategories = [];
-    this.transactionForm.get('subcategory')?.disable();
+  onCancel(): void {
+    this.cancelled.emit();
   }
 }
