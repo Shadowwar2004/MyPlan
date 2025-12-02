@@ -7,6 +7,7 @@ import {Component, EventEmitter, Output} from '@angular/core';
   styleUrl: './app-navbar.css',
 })
 export class AppNavbar {
+  imagePath = 'MyPlan.png';
   @Output() viewChange = new EventEmitter<'summary' | 'add'>();
 
   setActiveView(view: 'summary' | 'add'): void {

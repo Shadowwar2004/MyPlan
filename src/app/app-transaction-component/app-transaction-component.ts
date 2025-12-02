@@ -60,9 +60,9 @@ export class AppTransactionComponent implements OnInit {
     return this.fb.group({
       date: [new Date().toISOString().substring(0, 10), Validators.required],
       amount: ['', [Validators.required, Validators.min(0.01)]],
-      type: ['EXPENSE', Validators.required], // Uniquement majuscules
+      type: ['EXPENSE', Validators.required], // Déjà correct
       category: ['', Validators.required],
-      subcategory: ['', Validators.required],
+      subcategory: [{value: '', disabled: true}, Validators.required], // Désactivé par défaut
       description: ['']
     });
   }
@@ -88,25 +88,33 @@ export class AppTransactionComponent implements OnInit {
 
   onCategoryChange(): void {
     const selectedCategoryName = this.transactionForm.get('category')?.value;
+    console.log('Catégorie sélectionnée:', selectedCategoryName); // Debug
+
     if (selectedCategoryName) {
       const category = this.categories.find(cat => cat.name === selectedCategoryName);
-      if (category) {
+      console.log('Catégorie trouvée:', category); // Debug
+
+      if (category && category.id) {
         this.transactionService.getSubcategories(category.id).subscribe({
           next: (subcategories) => {
+            console.log('Sous-catégories reçues:', subcategories); // Debug
             this.subcategories = subcategories;
             this.transactionForm.get('subcategory')?.enable();
           },
           error: (error) => {
             this.error = 'Erreur lors du chargement des sous-catégories';
             console.error('Error loading subcategories:', error);
+            console.error('Erreur complète:', error); // Plus de détails
           }
         });
+      } else {
+        console.error('Catégorie non trouvée ou ID manquant');
       }
     } else {
       this.subcategories = [];
       this.transactionForm.get('subcategory')?.disable();
+      this.transactionForm.patchValue({ subcategory: '' });
     }
-    this.transactionForm.patchValue({ subcategory: '' });
   }
 
   updateCategoriesByType(): void {
