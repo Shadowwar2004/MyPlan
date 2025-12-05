@@ -1,0 +1,98 @@
+/* ========================================================= */
+/* 3. Add Component Styles (src/app/add/add.css) */
+/* ========================================================= */
+
+.form-wrapper {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-medium);
+  border: 1px solid var(--border-color);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--color-violet);
+  font-size: 0.95rem;
+}
+
+.app-input, .app-select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #fafafa;
+  color: var(--text-dark);
+}
+
+.app-input:hover, .app-select:hover {
+  border-color: var(--color-violet-light);
+  background-color: #fff;
+}
+
+.app-input:focus, .app-select:focus {
+  border-color: var(--color-blue);
+  background-color: #fff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(123, 31, 162, 0.2);
+}
+
+.app-input::placeholder {
+  color: #999;
+}
+
+.btn-submit {
+  display: inline-block;
+  padding: 14px 28px;
+  margin-top: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-light);
+  background: var(--primary-gradient);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  width: 100%;
+  box-shadow: var(--shadow-light);
+}
+
+.btn-submit:hover:not(:disabled) {
+  background: var(--primary-gradient-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-medium);
+}
+
+.btn-submit:active:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-light);
+}
+
+.btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Style pour les options des select */
+.app-select option {
+  padding: 10px;
+  background-color: #fff;
+  color: var(--text-dark);
+}
+
+.app-select option:hover {
+  background-color: var(--color-violet) !important;
+  color: white !important;
+}
