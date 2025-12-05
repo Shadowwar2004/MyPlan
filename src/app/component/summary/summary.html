@@ -1,0 +1,22 @@
+@if (transactions.length > 0) {
+  <p>Total des transactions : **{{ transactions.length }}**</p>
+
+  <ul class="list-group">
+    @for (t of transactions; track t.id; let i = $index) {
+      <li class="list-group-item d-flex justify-content-between align-items-center"
+          [class.status-revenu]="t.type_operation === 'revenu'"
+          [class.status-depense]="t.type_operation === 'depense'">
+        <div>
+          <strong>{{ t.montant_operation | currency:'€' }}</strong>
+          <span>le {{ t.date_operation | date:'dd/MM/yyyy' }}</span>
+        </div>
+        <div>
+          {{ t.type_operation === 'revenu' ? 'REVENU' : 'DÉPENSE' }}
+        </div>
+      </li>
+    }
+  </ul>
+} @else {
+  <!-- Ce div vide sera stylisé par le CSS -->
+  <div></div>
+}

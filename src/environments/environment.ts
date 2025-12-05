@@ -1,3 +1,4 @@
 export const environment = {
-  API_BASE_URL: "",
+  production: true,
+  apiUrl: 'http://localhost:8080/api/myplan',
 };

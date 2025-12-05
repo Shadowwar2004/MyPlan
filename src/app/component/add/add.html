@@ -1,0 +1,58 @@
+<div class="app-container">
+  <h2>➕ Ajouter une Nouvelle Transaction</h2>
+
+  <div class="form-wrapper">
+    <form #transactionForm="ngForm" (ngSubmit)="onSubmit(transactionForm)">
+
+      <div class="form-group">
+        <label for="dateOperation" class="form-label">Date</label>
+        <input type="date" class="app-input" id="dateOperation" name="dateOperation" ngModel required>
+      </div>
+
+      <div class="form-group">
+        <label for="montantOperation" class="form-label">Montant (€)</label>
+        <input type="number" step="0.01" class="app-input" id="montantOperation" name="montantOperation" ngModel required min="0.01">
+      </div>
+
+      <div class="form-group">
+        <label for="typeOperation" class="form-label">Type d'Opération</label>
+        <select class="app-select" id="typeOperation" name="typeOperation" ngModel required>
+          <option [ngValue]="null" disabled>Sélectionnez un type</option>
+          <option value="depense">Dépense</option>
+          <option value="revenu">Revenu</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="category" class="form-label">Catégorie</label>
+        <select
+          class="app-select"
+          id="category"
+          name="category_transaction_id"
+          [(ngModel)]="selectedCategoryId"
+          (change)="onCategoryChange()"
+          required
+        >
+          <option [ngValue]="null" disabled>Sélectionnez une catégorie</option>
+          @for (cat of categories; track cat.id) {
+            <option [ngValue]="cat.id">{{ cat.name }}</option>
+          }
+        </select>
+      </div>
+
+      @if (subCategories.length > 0) {
+        <div class="form-group">
+          <label for="subCategory" class="form-label">Sous-Catégorie</label>
+          <select class="app-select" id="subCategory" name="subcategory_transaction_id" ngModel required>
+            <option [ngValue]="null" disabled>Sélectionnez une sous-catégorie</option>
+            @for (subcat of subCategories; track subcat.id) {
+              <option [ngValue]="subcat.id">{{ subcat.name }}</option>
+            }
+          </select>
+        </div>
+      }
+
+      <button type="submit" class="btn-submit" [disabled]="!transactionForm.valid">Ajouter la Transaction</button>
+    </form>
+  </div>
+</div>

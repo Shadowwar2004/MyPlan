@@ -1,19 +1,48 @@
-/* src/app/app.component.css */
-.app-container {
+/* ========================================================= */
+/* 1. Base Global Styles - MIS À JOUR */
+/* ========================================================= */
+
+:root {
+  --color-violet: #7B1FA2;
+  --color-blue: #007BFF;
+  --primary-gradient: linear-gradient(90deg, var(--color-violet) 0%, var(--color-blue) 100%);
+  --bg-light: linear-gradient(135deg, #f8f9ff 0%, #eef2ff 100%);
+  --bg-white: #ffffff;
+  --text-dark: #2c3e50;
+  --color-success: #28a745;
+  --color-danger: #dc3545;
+  --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Appliquer le background au body et conteneurs */
+body {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg-light) !important;
+  background-color: #f4f6f9 !important;
+  color: var(--text-dark);
+  margin: 0;
+  padding-top: 60px;
   min-height: 100vh;
-  background: #f8fafc;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.main-content {
-  min-height: calc(100vh - 80px); /* Hauteur totale moins la navbar */
+/* Conteneur principal avec background */
+.app-container {
+  width: 90%;
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 25px;
+  background-color: var(--bg-white);
+  border-radius: 15px;
+  box-shadow: var(--shadow-light);
+  min-height: 400px;
 }
 
-.add-page-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 2rem;
-  min-height: calc(100vh - 80px);
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+/* Titres */
+h2 {
+  color: var(--color-violet);
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+  border-bottom: 3px solid var(--color-blue);
+  font-weight: 600;
+  font-size: 1.8rem;
 }

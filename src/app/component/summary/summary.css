@@ -1,0 +1,395 @@
+/* ========================================================= */
+/* 4. Summary Component Styles - DESIGN PREMIUM */
+/* ========================================================= */
+
+:root {
+  --shadow-soft: 0 8px 30px rgba(123, 31, 162, 0.08);
+  --shadow-medium: 0 15px 35px rgba(123, 31, 162, 0.12);
+  --gradient-light: linear-gradient(135deg, rgba(123, 31, 162, 0.03) 0%, rgba(0, 123, 255, 0.03) 100%);
+  --border-glow: 0 0 20px rgba(123, 31, 162, 0.15);
+}
+
+/* Conteneur principal */
+.app-container {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Titre principal avec effet dégradé */
+.app-container > h2:first-of-type {
+  background: linear-gradient(90deg, var(--color-violet) 0%, var(--color-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  border-bottom: 3px solid;
+  border-image: linear-gradient(90deg, var(--color-violet), var(--color-blue)) 1;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  position: relative;
+}
+
+.app-container > h2:first-of-type::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-violet) 0%, var(--color-blue) 100%);
+  border-radius: 3px;
+}
+
+/* Compteur de transactions - CARTE PREMIUM */
+.app-container > p:first-of-type {
+  background: linear-gradient(135deg, var(--color-violet) 0%, var(--color-blue) 100%);
+  color: white;
+  padding: 18px 28px;
+  border-radius: 16px;
+  margin: 0 0 35px 0;
+  font-weight: 700;
+  font-size: 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow-medium);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.app-container > p:first-of-type:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(123, 31, 162, 0.25);
+}
+
+.app-container > p:first-of-type::before {
+  content: '📊';
+  font-size: 1.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.app-container > p:first-of-type::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.7s;
+}
+
+.app-container > p:first-of-type:hover::after {
+  left: 100%;
+}
+
+/* Liste des transactions - DESIGN MODERNE */
+.list-group {
+  list-style: none;
+  padding: 0;
+  border-radius: 20px;
+  margin: 35px 0;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  background: white;
+  border: 1px solid rgba(123, 31, 162, 0.1);
+  position: relative;
+}
+
+.list-group::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-violet) 0%, var(--color-blue) 100%);
+}
+
+/* Élément de transaction - CARTE ÉLÉGANTE */
+.list-group-item {
+  background: white;
+  padding: 22px 28px;
+  border-bottom: 1px solid rgba(123, 31, 162, 0.08);
+  border-left: 0 solid transparent;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  animation: slideIn 0.5s ease-out forwards;
+  animation-delay: calc(var(--item-index) * 0.1s);
+  opacity: 0;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.list-group-item:last-child {
+  border-bottom: none;
+}
+
+/* Effet hover élégant */
+.list-group-item:hover {
+  background: linear-gradient(90deg, rgba(123, 31, 162, 0.02) 0%, rgba(0, 123, 255, 0.02) 100%);
+  transform: translateX(10px);
+  box-shadow: var(--shadow-soft);
+  border-left: 6px solid;
+  padding-left: 34px;
+}
+
+.list-group-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: linear-gradient(to bottom, var(--color-violet), var(--color-blue));
+  opacity: 0.1;
+  transition: width 0.3s ease;
+}
+
+.list-group-item:hover::before {
+  width: 100%;
+}
+
+/* Contenu de la transaction */
+.list-group-item > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 1;
+}
+
+/* Montant - DESIGN IMPACTANT */
+.list-group-item strong {
+  font-size: 1.4rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--color-violet) 0%, var(--color-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+  position: relative;
+  padding-left: 30px;
+}
+
+.list-group-item strong::before {
+  content: '💰';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+
+/* Date - STYLE SUBTIL */
+.list-group-item span {
+  color: #666;
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 30px;
+}
+
+.list-group-item span::before {
+  content: '📅';
+  font-size: 0.9rem;
+  opacity: 0.6;
+}
+
+/* Badge de type - DESIGN PREMIUM */
+.list-group-item > div:last-child {
+  padding: 10px 22px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  z-index: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.list-group-item > div:last-child::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  opacity: 0.9;
+  z-index: -1;
+}
+
+/* Couleurs pour Revenu */
+.list-group-item.status-revenu:hover {
+  border-left-color: var(--color-success);
+}
+
+.list-group-item.status-revenu > div:last-child {
+  background: linear-gradient(135deg, rgba(40, 167, 69, 0.15) 0%, rgba(40, 167, 69, 0.3) 100%);
+  color: var(--color-success);
+  border-color: rgba(40, 167, 69, 0.3);
+}
+
+.list-group-item.status-revenu > div:last-child::after {
+  content: '↑';
+  margin-left: 8px;
+  font-weight: bold;
+}
+
+/* Couleurs pour Dépense */
+.list-group-item.status-depense:hover {
+  border-left-color: var(--color-danger);
+}
+
+.list-group-item.status-depense > div:last-child {
+  background: linear-gradient(135deg, rgba(220, 53, 69, 0.15) 0%, rgba(220, 53, 69, 0.3) 100%);
+  color: var(--color-danger);
+  border-color: rgba(220, 53, 69, 0.3);
+}
+
+.list-group-item.status-depense > div:last-child::after {
+  content: '↓';
+  margin-left: 8px;
+  font-weight: bold;
+}
+
+/* État vide - DESIGN ÉPURÉ */
+.app-container > :last-child:empty {
+  display: block !important;
+  text-align: center;
+  padding: 60px 40px;
+  background: var(--gradient-light);
+  border-radius: 20px;
+  border: 2px dashed rgba(123, 31, 162, 0.2);
+  margin: 40px 0;
+  position: relative;
+}
+
+.app-container > :last-child:empty::before {
+  content: '📋';
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 20px;
+  opacity: 0.3;
+}
+
+.app-container > :last-child:empty::after {
+  content: 'Aucune transaction à afficher';
+  display: block;
+  color: var(--color-violet);
+  font-size: 1.2rem;
+  font-weight: 500;
+  background: linear-gradient(90deg, var(--color-violet) 0%, var(--color-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .list-group-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .list-group-item strong {
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .list-group-item strong::before {
+    position: static;
+    display: block;
+    margin-bottom: 5px;
+    transform: none;
+  }
+
+  .list-group-item span {
+    padding-left: 0;
+    justify-content: center;
+  }
+
+  .list-group-item > div:last-child {
+    align-self: center;
+    margin-top: 5px;
+  }
+
+  .list-group-item:hover {
+    transform: translateY(-5px);
+    padding-left: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-container > p:first-of-type {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 15px 20px;
+    font-size: 1.1rem;
+  }
+
+  .list-group-item strong {
+    font-size: 1.3rem;
+  }
+
+  .list-group-item > div:last-child {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Animation d'entrée pour chaque item */
+@for $i from 1 through 10 {
+  .list-group-item:nth-child(#{$i}) {
+    --item-index: #{$i};
+  }
+}
+
+/* Effet de pulse sur le compteur */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.app-container > p:first-of-type {
+  animation: pulse 2s infinite;
+}
