@@ -11,6 +11,8 @@ export interface Transaction {
   type_operation: 'depense' | 'revenu';
   category_transaction_id: number;
   subcategory_transaction_id: number;
+  categoryName?: string;
+  subCategoryName?: string;
 }
 export interface NewTransactionDTO {
   date_operation: string; // Format ISO pour le backend

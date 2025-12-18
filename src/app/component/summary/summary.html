@@ -1,22 +1,60 @@
 @if (transactions.length > 0) {
-  <p>Total des transactions : **{{ transactions.length }}**</p>
+  <p>Total des transactions : {{ transactions.length }}</p>
 
   <ul class="list-group">
-    @for (t of transactions; track t.id; let i = $index) {
+
+    @for (t of paginatedTransactions; track t.id; let i = $index) {
       <li class="list-group-item d-flex justify-content-between align-items-center"
           [class.status-revenu]="t.type_operation === 'revenu'"
           [class.status-depense]="t.type_operation === 'depense'">
-        <div>
+
+        <div class="transaction-details">
           <strong>{{ t.montant_operation | currency:'€' }}</strong>
           <span>le {{ t.date_operation | date:'dd/MM/yyyy' }}</span>
+
+          @if (t.categoryName) {
+            <span class="category-info">
+              @if (t.subCategoryName) {
+                <span> {{ t.categoryName }} / {{ t.subCategoryName }}</span>
+              }
+            </span>
+          }
         </div>
+
         <div>
           {{ t.type_operation === 'revenu' ? 'REVENU' : 'DÉPENSE' }}
         </div>
       </li>
     }
   </ul>
+
+
+  @if (totalPages > 1) {
+    <div class="pagination-controls">
+      <button class="pagination-button"
+              (click)="previousPage()"
+              [disabled]="currentPage === 1">
+        Précédent
+      </button>
+
+      <div class="page-numbers">
+        @for (page of pageNumbers; track page) {
+          <button class="page-number-button"
+                  [class.active]="page === currentPage"
+                  (click)="goToPage(page)">
+            {{ page }}
+          </button>
+        }
+      </div>
+
+      <button class="pagination-button"
+              (click)="nextPage()"
+              [disabled]="currentPage === totalPages">
+        Suivant
+      </button>
+    </div>
+  }
+
 } @else {
-  <!-- Ce div vide sera stylisé par le CSS -->
   <div></div>
 }
