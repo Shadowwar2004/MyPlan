@@ -1,497 +1,180 @@
 /* ========================================================= */
-/* 4. Summary Component Styles - DESIGN PREMIUM */
+/* SUMMARY STYLES - COMPACT & TITRE NOIR */
 /* ========================================================= */
 
 :root {
-  --shadow-soft: 0 8px 30px rgba(123, 31, 162, 0.08);
-  --shadow-medium: 0 15px 35px rgba(123, 31, 162, 0.12);
+  --shadow-soft: 0 4px 15px rgba(123, 31, 162, 0.08);
   --gradient-light: linear-gradient(135deg, rgba(123, 31, 162, 0.03) 0%, rgba(0, 123, 255, 0.03) 100%);
-  --border-glow: 0 0 20px rgba(123, 31, 162, 0.15);
+  --color-violet: #7b1fa2;
+  --color-blue: #007bff;
+  --color-success: #28a745;
+  --color-danger: #dc3545;
 }
 
-/* Conteneur principal */
+/* --- CONTENEUR --- */
 .app-container {
   animation: fadeIn 0.6s ease-out;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Titre principal avec effet dégradé */
+/* --- TITRE (CORRIGÉ EN NOIR) --- */
 .app-container > h2:first-of-type {
-  background: linear-gradient(90deg, var(--color-violet) 0%, var(--color-blue) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  border-bottom: 3px solid;
-  border-image: linear-gradient(90deg, var(--color-violet), var(--color-blue)) 1;
-  padding-bottom: 15px;
-  margin-bottom: 30px;
-  font-size: 2rem;
+  color: #000000 !important; /* Noir Solide */
+  background: none;
+  -webkit-text-fill-color: initial; /* Enlève la transparence */
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  font-size: 1.6rem;
   font-weight: 700;
-  letter-spacing: -0.5px;
-  position: relative;
 }
 
-.app-container > h2:first-of-type::after {
-  content: '';
-  position: absolute;
-  bottom: -3px;
-  left: 0;
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--color-violet) 0%, var(--color-blue) 100%);
-  border-radius: 3px;
-}
-
-/* Compteur de transactions - CARTE PREMIUM */
+/* Compteur de transactions (Compact) */
 .app-container > p:first-of-type {
   background: linear-gradient(135deg, var(--color-violet) 0%, var(--color-blue) 100%);
-  color: white;
-  padding: 18px 28px;
-  border-radius: 16px;
-  margin: 0 0 35px 0;
-  font-weight: 700;
-  font-size: 1.2rem;
+  color: black;
+  padding: 8px 20px;
+  border-radius: 10px;
+  margin: 0 0 20px 0;
+  font-weight: 600;
+  font-size: 1rem;
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  box-shadow: var(--shadow-medium);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.app-container > p:first-of-type:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(123, 31, 162, 0.25);
-}
-
-.app-container > p:first-of-type::before {
-  content: '📊';
-  font-size: 1.5rem;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-}
-
-.app-container > p:first-of-type::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.7s;
-}
-
-.app-container > p:first-of-type:hover::after {
-  left: 100%;
-}
-
-/* Liste des transactions - DESIGN MODERNE */
-.list-group {
-  list-style: none;
-  padding: 0;
-  border-radius: 20px;
-  margin: 35px 0;
-  overflow: hidden;
+  gap: 10px;
   box-shadow: var(--shadow-soft);
+}
+.app-container > p:first-of-type::before { content: '📊'; font-size: 1.2rem; }
+
+/* --- SECTION FILTRES (Compacte) --- */
+.filters-container {
   background: white;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  box-shadow: var(--shadow-soft);
   border: 1px solid rgba(123, 31, 162, 0.1);
-  position: relative;
-}
-
-.list-group::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--color-violet) 0%, var(--color-blue) 100%);
-}
-
-/* Élément de transaction - CARTE ÉLÉGANTE */
-.list-group-item {
-  background: white;
-  padding: 22px 28px;
-  border-bottom: 1px solid rgba(123, 31, 162, 0.08);
-  border-left: 0 solid transparent;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
   align-items: center;
-  position: relative;
-  overflow: hidden;
-  animation: slideIn 0.5s ease-out forwards;
-  animation-delay: calc(var(--item-index) * 0.1s);
-  opacity: 0;
+  justify-content: space-between;
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+.filter-group {
+  display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 180px;
 }
-
-.list-group-item:last-child {
-  border-bottom: none;
+.filter-group label { font-weight: 600; color: #555; font-size: 0.85rem; }
+.filter-group select {
+  padding: 8px 10px; border-radius: 6px; border: 1px solid #ddd;
+  background-color: #f9f9f9; font-size: 0.9rem; cursor: pointer;
 }
+.filter-group select:focus { border-color: var(--color-violet); outline: none; }
+select[disabled] { background-color: #e9ecef; color: #adb5bd; cursor: not-allowed; opacity: 0.7; }
 
-/* Effet hover élégant */
+/* Slider Compact */
+.slider-container { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.range-slider {
+  -webkit-appearance: none; width: 100%; height: 4px;
+  background: rgba(156, 39, 176, 0.15); border-radius: 10px; outline: none; cursor: pointer;
+}
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+  background: #9c27b0; cursor: pointer; box-shadow: 0 2px 5px rgba(156, 39, 176, 0.4);
+  margin-top: -6px; transition: transform 0.2s ease;
+}
+.range-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+.filter-info { font-size: 0.85rem; color: #000000; margin-bottom: 10px; font-style: italic; text-align: right; }
+
+/* --- LISTE TRANSACTIONS (Compacte) --- */
+.list-group {
+  list-style: none; padding: 0; border-radius: 12px; margin: 10px 0;
+  box-shadow: var(--shadow-soft); overflow: hidden;
+}
+.list-group-item {
+  background: white; padding: 12px 18px; /* Hauteur réduite */
+  border-bottom: 1px solid rgba(123, 31, 162, 0.08);
+  display: flex; justify-content: space-between; align-items: center;
+  transition: all 0.2s ease;
+}
 .list-group-item:hover {
   background: linear-gradient(90deg, rgba(123, 31, 162, 0.02) 0%, rgba(0, 123, 255, 0.02) 100%);
-  transform: translateX(10px);
-  box-shadow: var(--shadow-soft);
-  border-left: 6px solid;
-  padding-left: 34px;
+  padding-left: 24px;
 }
 
-.list-group-item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 0;
-  background: linear-gradient(to bottom, var(--color-violet), var(--color-blue));
-  opacity: 0.1;
-  transition: width 0.3s ease;
+/* Détails */
+.transaction-details { display: flex; flex-direction: column; gap: 2px; }
+.transaction-details strong { font-size: 1.1rem; color: #333; }
+.transaction-details span { color: #666; font-size: 0.85rem; }
+
+/* Actions */
+.transaction-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+
+/* --- BADGES COMPACTS (Lisibles) --- */
+.badge-type {
+  padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 0.75rem;
+  text-transform: uppercase; min-width: 100px; text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; justify-content: center; align-items: center;
 }
+.status-revenu .badge-type { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.status-depense .badge-type { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
 
-.list-group-item:hover::before {
-  width: 100%;
+/* --- BOUTONS (Petits) --- */
+.action-buttons { display: flex; gap: 8px; }
+.btn-icon {
+  border: none; width: 32px; height: 32px; border-radius: 50%;
+  display: flex; justify-content: center; align-items: center; font-size: 1rem;
+  cursor: pointer; transition: all 0.2s;
 }
+.btn-icon.edit { background: rgba(0, 123, 255, 0.1); color: var(--color-blue); border: 1px solid rgba(0, 123, 255, 0.2); }
+.btn-icon.edit:hover { background: var(--color-blue); color: white; transform: scale(1.1); }
+.btn-icon.delete { background: rgba(220, 53, 69, 0.1); color: var(--color-danger); border: 1px solid rgba(220, 53, 69, 0.2); }
+.btn-icon.delete:hover { background: var(--color-danger); color: white; transform: scale(1.1); }
 
-/* Contenu de la transaction */
-.list-group-item > div:first-child {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  z-index: 1;
-}
-
-/* Montant - DESIGN IMPACTANT */
-.list-group-item strong {
-  font-size: 1.4rem;
-  font-weight: 800;
-  background: linear-gradient(90deg, var(--color-violet) 0%, var(--color-blue) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: black;
-  background-clip: text;
-  letter-spacing: -0.5px;
-  position: relative;
-  padding-left: 30px;
-}
-
-.list-group-item strong::before {
-  content: '💸';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.2rem;
-  opacity: 0.8;
-}
-
-/* Date - STYLE SUBTIL */
-.list-group-item span {
-  color: #666;
-  font-size: 0.95rem;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding-left: 30px;
-}
-
-.list-group-item span::before {
-
-  font-size: 0.9rem;
-  opacity: 0.6;
-}
-
-/* Badge de type - DESIGN PREMIUM */
-.list-group-item > div:last-child {
-  padding: 10px 22px;
-  border-radius: 50px;
-  font-weight: 700;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border: 2px solid transparent;
-  transition: all 0.3s ease;
-  z-index: 1;
-  position: relative;
-  overflow: hidden;
-}
-
-.list-group-item > div:last-child::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: white;
-  opacity: 0.9;
-  z-index: -1;
-}
-
-/* Couleurs pour Revenu */
-.list-group-item.status-revenu:hover {
-  border-left-color: var(--color-success);
-}
-
-.list-group-item.status-revenu > div:last-child {
-  background: linear-gradient(135deg, rgba(40, 167, 69, 0.15) 0%, rgba(40, 167, 69, 0.3) 100%);
-  color: var(--color-success);
-  border-color: rgba(40, 167, 69, 0.3);
-}
-
-.list-group-item.status-revenu > div:last-child::after {
-  content: '↑';
-  margin-left: 8px;
-  font-weight: bold;
-}
-
-/* Couleurs pour Dépense */
-.list-group-item.status-depense:hover {
-  border-left-color: var(--color-danger);
-}
-
-.list-group-item.status-depense > div:last-child {
-  background: linear-gradient(135deg, rgba(220, 53, 69, 0.15) 0%, rgba(220, 53, 69, 0.3) 100%);
-  color: var(--color-danger);
-  border-color: rgba(220, 53, 69, 0.3);
-}
-
-.list-group-item.status-depense > div:last-child::after {
-  content: '↓';
-  margin-left: 8px;
-  font-weight: bold;
-}
-
-/* État vide - DESIGN ÉPURÉ */
-.app-container > :last-child:empty {
-  display: block !important;
-  text-align: center;
-  padding: 60px 40px;
-  background: var(--gradient-light);
-  border-radius: 20px;
-  border: 2px dashed rgba(123, 31, 162, 0.2);
-  margin: 40px 0;
-  position: relative;
-}
-
-.app-container > :last-child:empty::before {
-  content: '📋';
-  font-size: 3rem;
-  display: block;
-  margin-bottom: 20px;
-  opacity: 0.3;
-}
-
-.app-container > :last-child:empty::after {
-  content: 'Aucune transaction à afficher';
-  display: block;
-  color: var(--color-violet);
-  font-size: 1.2rem;
-  font-weight: 500;
-  background: linear-gradient(90deg, var(--color-violet) 0%, var(--color-blue) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .list-group-item {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 15px;
-    padding: 20px;
-    text-align: center;
-  }
-
-  .list-group-item strong {
-    padding-left: 0;
-    text-align: center;
-  }
-
-  .list-group-item strong::before {
-    position: static;
-    display: block;
-    margin-bottom: 5px;
-    transform: none;
-  }
-
-  .list-group-item span {
-    padding-left: 0;
-    justify-content: center;
-  }
-
-  .list-group-item > div:last-child {
-    align-self: center;
-    margin-top: 5px;
-  }
-
-  .list-group-item:hover {
-    transform: translateY(-5px);
-    padding-left: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .app-container > p:first-of-type {
-    width: 100%;
-    justify-content: center;
-    text-align: center;
-    padding: 15px 20px;
-    font-size: 1.1rem;
-  }
-
-  .list-group-item strong {
-    font-size: 1.3rem;
-  }
-
-  .list-group-item > div:last-child {
-    padding: 8px 16px;
-    font-size: 0.8rem;
-  }
-}
-
-/* Animation d'entrée pour chaque item */
-@for $i from 1 through 10 {
-  .list-group-item:nth-child(#{$i}) {
-    --item-index: #{$i};
-  }
-}
-
-/* Effet de pulse sur le compteur */
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-.app-container > p:first-of-type {
-  animation: pulse 2s infinite;
-}
-
+/* --- PAGINATION (Compacte) --- */
 .pagination-controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-  margin: 30px 0 20px 0;
-  padding: 15px;
-  background: var(--gradient-light); /* Utilisation d'un dégradé léger */
-  border-radius: 12px;
-  box-shadow: var(--shadow-soft);
-  border: 1px solid rgba(123, 31, 162, 0.1);
-  animation: fadeIn 0.8s ease-out;
+  display: flex; justify-content: center; align-items: center; gap: 10px;
+  margin: 15px 0; padding: 10px; background: var(--gradient-light); border-radius: 10px;
 }
-
 .pagination-button {
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid var(--color-violet);
-  background: white;
-  color: var(--color-violet);
-  box-shadow: 0 4px 8px rgba(123, 31, 162, 0.1);
+  padding: 6px 12px; border-radius: 6px; border: 1px solid var(--color-violet);
+  background: white; color: var(--color-violet); font-weight: 600; cursor: pointer; font-size: 0.9rem;
 }
-
-.pagination-button:hover:not([disabled]) {
-  background: var(--color-violet);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(123, 31, 162, 0.3);
-}
-
-.pagination-button[disabled] {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background: #f8f8f8;
-  color: #ccc;
-  border-color: #eee;
-  box-shadow: none;
-}
-
-.page-numbers {
-  display: flex;
-  gap: 8px;
-}
-
+.pagination-button:hover:not([disabled]) { background: var(--color-violet); color: white; }
+.pagination-button[disabled] { opacity: 0.5; cursor: not-allowed; background: #eee; border-color: #ddd; color: #999; }
 .page-number-button {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(123, 31, 162, 0.2);
-  background: white;
-  color: #666;
-  box-shadow: var(--shadow-soft);
+  width: 30px; height: 30px; border-radius: 50%; border: 1px solid #ddd; background: white;
+  cursor: pointer; font-size: 0.9rem;
 }
+.page-number-button.active { background: var(--color-violet); color: white; border-color: var(--color-violet); transform: scale(1.1); }
 
-.page-number-button:hover:not(.active) {
-  background: rgba(0, 123, 255, 0.1);
-  color: var(--color-blue);
-  transform: scale(1.05);
+/* --- MODALE --- */
+.modal-backdrop {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6); display: flex; justify-content: center; align-items: center;
+  z-index: 1000; backdrop-filter: blur(4px);
 }
-
-.page-number-button.active {
-  background: linear-gradient(135deg, var(--color-violet) 0%, var(--color-blue) 100%);
-  color: white;
-  border: 1px solid white;
-  box-shadow: var(--shadow-medium);
-  transform: scale(1.1);
+.modal-content {
+  background: white; padding: 25px; border-radius: 16px;
+  width: 90%; max-width: 450px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);
 }
-
-/* Responsive pour la pagination */
-@media (max-width: 600px) {
-  .pagination-controls {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .page-numbers {
-    order: 3; /* Placer les numéros de page en dessous sur petit écran */
-    margin-top: 10px;
-    justify-content: center;
-  }
-
-  .pagination-button {
-    flex-grow: 1; /* Les boutons Précédent/Suivant prennent toute la largeur */
-    width: 45%;
-    padding: 8px 15px;
-  }
-
-  .page-number-button {
-    width: 35px;
-    height: 35px;
-    font-size: 0.9rem;
-  }
+.modal-content h3 { margin-top: 0; color: #000; margin-bottom: 20px; text-align: center; font-size: 1.3rem; }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; color: #444; }
+.form-group input, .form-group select {
+  width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ddd; font-size: 0.95rem; background: #fdfdfd;
 }
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 25px; }
+.btn-cancel { background: #f1f3f5; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; color: #555; }
+.btn-save {
+  background: linear-gradient(135deg, #7b1fa2 0%, #007bff 100%) !important;
+  color: white !important; border: none; padding: 10px 30px; border-radius: 6px; font-weight: 700; font-size: 0.95rem;
+  cursor: pointer; box-shadow: 0 4px 15px rgba(123, 31, 162, 0.3);
+}
+.no-results { text-align: center; padding: 30px; color: #888; background: #f9f9f9; border-radius: 10px; border: 2px dashed #ddd; margin-top: 15px; }

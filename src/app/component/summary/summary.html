@@ -1,60 +1,172 @@
-@if (transactions.length > 0) {
-  <p>Total des transactions : {{ transactions.length }}</p>
+<div class="app-container">
 
-  <ul class="list-group">
+  <h2>Résumé des Transactions</h2>
 
-    @for (t of paginatedTransactions; track t.id; let i = $index) {
-      <li class="list-group-item d-flex justify-content-between align-items-center"
-          [class.status-revenu]="t.type_operation === 'revenu'"
-          [class.status-depense]="t.type_operation === 'depense'">
+  <div class="filters-container">
 
-        <div class="transaction-details">
-          <strong>{{ t.montant_operation | currency:'€' }}</strong>
-          <span>le {{ t.date_operation | date:'dd/MM/yyyy' }}</span>
+    <div class="filter-group">
+      <label for="categorySelect">Catégorie</label>
+      <select id="categorySelect" [(ngModel)]="selectedCategoryId" (change)="onCategoryFilterChange()">
+        <option [ngValue]="null">Toutes les catégories</option>
+        @for (cat of categories; track cat.id) {
+          <option [value]="cat.id">{{ cat.name }}</option>
+        }
+      </select>
+    </div>
 
-          @if (t.categoryName) {
-            <span class="category-info">
-              @if (t.subCategoryName) {
-                <span> {{ t.categoryName }} / {{ t.subCategoryName }}</span>
+    <div class="filter-group">
+      <label for="subCategorySelect">Sous-Catégorie</label>
+      <select id="subCategorySelect"
+              [(ngModel)]="selectedSubCategoryId"
+              (change)="onFilterChange()"
+              [disabled]="!selectedCategoryId">
+        <option [ngValue]="null">Toutes les sous-catégories</option>
+        @for (sub of subCategories; track sub.id) {
+          <option [value]="sub.id">{{ sub.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="filter-group price-filter">
+      <label>Montant ({{ filterMinPrice | currency:'€' }} - {{ filterMaxPrice | currency:'€' }})</label>
+      <div class="slider-container">
+        <input type="range"
+               [min]="globalMinAmount"
+               [max]="globalMaxAmount"
+               [(ngModel)]="filterMinPrice"
+               (input)="onFilterChange()"
+               class="range-slider">
+
+        <input type="range"
+               [min]="globalMinAmount"
+               [max]="globalMaxAmount"
+               [(ngModel)]="filterMaxPrice"
+               (input)="onFilterChange()"
+               class="range-slider">
+      </div>
+    </div>
+  </div>
+
+  <p class="filter-info">Affichage de {{ filteredTransactions.length }} transaction(s)</p>
+
+  @if (filteredTransactions.length > 0) {
+    <ul class="list-group">
+      @for (t of paginatedTransactions; track t.id) {
+        <li class="list-group-item"
+            [class.status-revenu]="t.type_operation === 'revenu'"
+            [class.status-depense]="t.type_operation === 'depense'">
+
+          <div class="transaction-details">
+            <strong>{{ t.montant_operation | currency:'€' }}</strong>
+            <span>le {{ t.date_operation | date:'dd/MM/yyyy' }}</span>
+
+            @if (t.categoryName) {
+              <span class="category-info">
+                @if (t.subCategoryName) {
+                  <span>{{ t.categoryName }} / {{ t.subCategoryName }}</span>
+                } @else {
+                  <span>{{ t.categoryName }}</span>
+                }
+              </span>
+            }
+          </div>
+
+          <div class="transaction-actions">
+
+            <div class="badge-type">
+              @if (t.type_operation === 'revenu') {
+                <span>+ REVENU</span>
+              } @else {
+                <span>- DÉPENSE</span>
               }
-            </span>
+            </div>
+
+            <div class="action-buttons">
+              <button class="btn-icon edit" (click)="openEditModal(t)" title="Modifier">✎</button>
+              <button class="btn-icon delete" (click)="deleteTransaction(t)" title="Supprimer">🗑</button>
+            </div>
+          </div>
+        </li>
+      }
+    </ul>
+
+    @if (totalPages > 1) {
+      <div class="pagination-controls">
+        <button class="pagination-button" (click)="previousPage()" [disabled]="currentPage === 1">
+          Précédent
+        </button>
+
+        <div class="page-numbers">
+          @for (page of pageNumbers; track page) {
+            <button class="page-number-button"
+                    [class.active]="page === currentPage"
+                    (click)="goToPage(page)">
+              {{ page }}
+            </button>
           }
         </div>
 
-        <div>
-          {{ t.type_operation === 'revenu' ? 'REVENU' : 'DÉPENSE' }}
-        </div>
-      </li>
-    }
-  </ul>
-
-
-  @if (totalPages > 1) {
-    <div class="pagination-controls">
-      <button class="pagination-button"
-              (click)="previousPage()"
-              [disabled]="currentPage === 1">
-        Précédent
-      </button>
-
-      <div class="page-numbers">
-        @for (page of pageNumbers; track page) {
-          <button class="page-number-button"
-                  [class.active]="page === currentPage"
-                  (click)="goToPage(page)">
-            {{ page }}
-          </button>
-        }
+        <button class="pagination-button" (click)="nextPage()" [disabled]="currentPage === totalPages">
+          Suivant
+        </button>
       </div>
+    }
 
-      <button class="pagination-button"
-              (click)="nextPage()"
-              [disabled]="currentPage === totalPages">
-        Suivant
-      </button>
+  } @else {
+    <div class="no-results">
+      <p>Aucune transaction ne correspond à vos filtres.</p>
     </div>
   }
 
-} @else {
-  <div></div>
-}
+  @if (isEditModalOpen) {
+    <div class="modal-backdrop">
+      <div class="modal-content">
+        <h3>Modifier la transaction</h3>
+
+        <form (ngSubmit)="saveEdit()">
+
+          <div class="form-group">
+            <label>Montant</label>
+            <input type="number" [(ngModel)]="editForm.montant_operation" name="montant" required>
+          </div>
+
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" [(ngModel)]="editForm.date_operation" name="date" required>
+          </div>
+
+          <div class="form-group">
+            <label>Type</label>
+            <select [(ngModel)]="editForm.type_operation" name="type">
+              <option value="depense">Dépense</option>
+              <option value="revenu">Revenu</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Catégorie</label>
+            <select [(ngModel)]="editForm.category_transaction_id" name="category" (change)="onEditCategoryChange(editForm.category_transaction_id)">
+              @for (cat of categories; track cat.id) {
+                <option [value]="cat.id">{{ cat.name }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Sous-Catégorie</label>
+            <select [(ngModel)]="editForm.subcategory_transaction_id" name="subcategory">
+              @for (sub of subCategoriesForEdit; track sub.id) {
+                <option [value]="sub.id">{{ sub.name }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" (click)="closeEditModal()">Annuler</button>
+            <button type="submit" class="btn-save">Sauvegarder</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>
