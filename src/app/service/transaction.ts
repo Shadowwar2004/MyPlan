@@ -37,4 +37,17 @@ export class TransactionService {
   createTransaction(newTransaction: NewTransactionDTO): Observable<Transaction> {
     return this.http.post<Transaction>(this.apiUrl, newTransaction);
   }
+
+  updateTransaction(id: number, transaction: NewTransactionDTO): Observable<Transaction> {
+    // On crée un nouvel objet qui contient TOUTES les infos du DTO + l'ID
+    // Cela garantit que le backend reçoit l'ID même s'il le cherche dans le body
+    const payload = { ...transaction, id: id };
+    return this.http.put<Transaction>(`${this.apiUrl}`, payload);
+  }
+
+  // Supprimer une transaction (DELETE)
+  deleteTransaction(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
 }
