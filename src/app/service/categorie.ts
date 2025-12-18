@@ -29,4 +29,12 @@ export class CategoriesService {
   getSubCategoriesByCategoryId(categoryId: number): Observable<{ subCategories: SubCategory[] }> {
     return this.http.get<{ subCategories: SubCategory[] }>(`${this.apiUrl}/${categoryId}`);
   }
+
+  getCategoryById(categoryId: number): Observable<Category> {
+    return this.http.get<Category>(`${this.apiUrl}/get/${categoryId}`);
+  }
+
+  getSubCategoryById(subCategoryId: number,catId:number): Observable<SubCategory> {
+    return this.http.get<SubCategory>(`${this.apiUrl}/getSub/${catId}/${subCategoryId}`);
+  }
 }
